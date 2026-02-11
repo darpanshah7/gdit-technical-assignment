@@ -7,5 +7,7 @@ public interface ValidationRule {
 
     String getRuleName();
 
+    boolean isActive();
+
     ValidationDetails validate(Application application);
 }
