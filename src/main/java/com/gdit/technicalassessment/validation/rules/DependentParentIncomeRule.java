@@ -1,15 +1,14 @@
 package com.gdit.technicalassessment.validation.rules;
 
-import com.gdit.technicalassessment.model.Application;
-import com.gdit.technicalassessment.model.RuleResult;
-import com.gdit.technicalassessment.model.ValidationDetails;
-import com.gdit.technicalassessment.model.ValidationStatus;
+import com.gdit.technicalassessment.model.*;
 import com.gdit.technicalassessment.validation.ValidationRule;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.gdit.technicalassessment.model.DependencyStatus.INDEPENDENT;
+import static com.gdit.technicalassessment.validation.util.EnumValidator.isValidEnum;
+import static com.gdit.technicalassessment.validation.util.EnumValidator.parseEnum;
 
 @Component
 public class DependentParentIncomeRule implements ValidationRule {
@@ -29,7 +28,11 @@ public class DependentParentIncomeRule implements ValidationRule {
             return buildInvalidResult("Dependency status is missing");
         }
 
-        if (application.dependencyStatus() == INDEPENDENT) {
+        if (!isValidEnum(application.dependencyStatus(), DependencyStatus.class)) {
+            return buildInvalidResult(String.format("Invalid dependency status. Must be one of the following: %s, Provided: %s", List.of(DependencyStatus.values()), application.dependencyStatus()));
+        }
+
+        if (parseEnum(application.dependencyStatus(), DependencyStatus.class) == INDEPENDENT) {
             return buildValidResultForIndependent();
         }
 

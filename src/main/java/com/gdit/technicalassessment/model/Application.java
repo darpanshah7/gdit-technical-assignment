@@ -5,8 +5,8 @@ import lombok.Builder;
 @Builder
 public record Application(
         StudentInfo studentInfo,
-        DependencyStatus dependencyStatus,
-        MaritalStatus maritalStatus,
+        String dependencyStatus,
+        String maritalStatus,
         SpouseInfo spouseInfo,
         Household household,
         Income income,

@@ -23,7 +23,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithSpouseInfoIsValid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("John", "Doe", "987654321"))
                 .build();
 
@@ -40,10 +40,11 @@ class MarriedSpouseInfoRuleTest {
         assertEquals(expected, actual);
     }
 
+
     @Test
     void marriedStudentWithoutSpouseInfoIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(null)
                 .build();
 
@@ -62,29 +63,9 @@ class MarriedSpouseInfoRuleTest {
     }
 
     @Test
-    void singleStudentWithoutSpouseInfoIsValid() {
-        var application = Application.builder()
-                .maritalStatus(MaritalStatus.SINGLE)
-                .spouseInfo(null)
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("MARRIED_SPOUSE_INFO")
-                                .build()
-                ))
-                .build();
-
-        var actual = marriedSpouseInfoRule.validate(application);
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void singleStudentWithSpouseInfoIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.SINGLE)
+                .maritalStatus("SINGLE")
                 .spouseInfo(new SpouseInfo("John", "Doe", "987654321"))
                 .build();
 
@@ -124,9 +105,30 @@ class MarriedSpouseInfoRuleTest {
     }
 
     @Test
+    void invalidMaritalStatusIsInvalid() {
+        var application = Application.builder()
+                .maritalStatus("DIVORCED")
+                .spouseInfo(new SpouseInfo("John", "Doe", "987654321"))
+                .build();
+
+        var expected = ValidationDetails.builder()
+                .status(ValidationStatus.INVALID)
+                .failedRules(List.of(
+                        RuleResult.builder()
+                                .ruleName("MARRIED_SPOUSE_INFO")
+                                .message("Invalid marital status. Must be one of the following: [SINGLE, MARRIED], Provided: DIVORCED")
+                                .build()
+                ))
+                .build();
+
+        var actual = marriedSpouseInfoRule.validate(application);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void marriedStudentWithCompleteSpouseInfoIsValid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("Jane", "Smith", "123456789"))
                 .build();
 
@@ -146,7 +148,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithEmptySpouseObjectIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo(null, null, null))
                 .build();
 
@@ -175,7 +177,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithEmptyStringSpouseFieldsIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("", "", ""))
                 .build();
 
@@ -204,7 +206,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithMissingSpouseFirstNameIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo(null, "Doe", "987654321"))
                 .build();
 
@@ -225,7 +227,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithMissingSpouseLastNameIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("John", null, "987654321"))
                 .build();
 
@@ -246,7 +248,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithMissingSpouseSsnIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("John", "Doe", null))
                 .build();
 
@@ -270,7 +272,7 @@ class MarriedSpouseInfoRuleTest {
             mockedValidator.when(() -> SsnValidator.isValidSsn("987654321")).thenReturn(true);
 
             var application = Application.builder()
-                    .maritalStatus(MaritalStatus.MARRIED)
+                    .maritalStatus("MARRIED")
                     .spouseInfo(new SpouseInfo("", "Doe", "987654321"))
                     .build();
 
@@ -295,7 +297,7 @@ class MarriedSpouseInfoRuleTest {
             mockedValidator.when(() -> SsnValidator.isValidSsn("987654321")).thenReturn(true);
 
             var application = Application.builder()
-                    .maritalStatus(MaritalStatus.MARRIED)
+                    .maritalStatus("MARRIED")
                     .spouseInfo(new SpouseInfo("", null, "987654321"))
                     .build();
 
@@ -321,7 +323,7 @@ class MarriedSpouseInfoRuleTest {
     @Test
     void marriedStudentWithInvalidSpouseSsnIsInvalid() {
         var application = Application.builder()
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("John", "Doe", "invalid"))
                 .build();
 

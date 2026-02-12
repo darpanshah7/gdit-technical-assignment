@@ -20,7 +20,7 @@ class DependentParentIncomeRuleTest {
     @Test
     void dependentStudentWithParentIncomeIsValid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.DEPENDENT)
+                .dependencyStatus("DEPENDENT")
                 .income(new Income(1, 2))
                 .build();
 
@@ -40,7 +40,7 @@ class DependentParentIncomeRuleTest {
     @Test
     void dependentStudentWithoutParentIncomeIsInvalid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.DEPENDENT)
+                .dependencyStatus("DEPENDENT")
                 .income(new Income(1, null))
                 .build();
 
@@ -61,7 +61,7 @@ class DependentParentIncomeRuleTest {
     @Test
     void dependentStudentWithoutIncomeInformationIsInvalid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.DEPENDENT)
+                .dependencyStatus("DEPENDENT")
                 .income(null)
                 .build();
 
@@ -82,7 +82,7 @@ class DependentParentIncomeRuleTest {
     @Test
     void independentStudentWithoutParentIncomeIsValid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.INDEPENDENT)
+                .dependencyStatus("INDEPENDENT")
                 .income(new Income(1, null))
                 .build();
 
@@ -102,7 +102,7 @@ class DependentParentIncomeRuleTest {
     @Test
     void independentStudentWithParentIncomeIsValid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.INDEPENDENT)
+                .dependencyStatus("INDEPENDENT")
                 .income(new Income(1, 2))
                 .build();
 
@@ -141,9 +141,30 @@ class DependentParentIncomeRuleTest {
     }
 
     @Test
+    void invalidDependencyStatusIsInvalid() {
+        var application = Application.builder()
+                .dependencyStatus("INVALID_STATUS")
+                .income(new Income(1, 2))
+                .build();
+
+        var expected = ValidationDetails.builder()
+                .status(ValidationStatus.INVALID)
+                .failedRules(List.of(
+                        RuleResult.builder()
+                                .ruleName("DEPENDENT_PARENT_INCOME")
+                                .message("Invalid dependency status. Must be one of the following: [DEPENDENT, INDEPENDENT], Provided: INVALID_STATUS")
+                                .build()
+                ))
+                .build();
+
+        var actual = dependentParentIncomeRule.validate(application);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void dependentStudentWithNullIncomeValuesIsInvalid() {
         var application = Application.builder()
-                .dependencyStatus(DependencyStatus.DEPENDENT)
+                .dependencyStatus("DEPENDENT")
                 .income(new Income(null, null))
                 .build();
 
@@ -161,4 +182,3 @@ class DependentParentIncomeRuleTest {
         assertEquals(expected, actual);
     }
 }
-

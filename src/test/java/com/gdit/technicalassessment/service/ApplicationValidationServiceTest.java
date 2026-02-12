@@ -42,8 +42,8 @@ class ApplicationValidationServiceTest {
                         .ssn("123456789")
                         .dateOfBirth(LocalDate.of(2003, 5, 15))
                         .build())
-                .dependencyStatus(DependencyStatus.DEPENDENT)
-                .maritalStatus(MaritalStatus.SINGLE)
+                .dependencyStatus("DEPENDENT")
+                .maritalStatus("SINGLE")
                 .build();
     }
 
@@ -334,8 +334,8 @@ class ApplicationValidationServiceTest {
                         .ssn("987654321")
                         .dateOfBirth(LocalDate.of(2000, 1, 1))
                         .build())
-                .dependencyStatus(DependencyStatus.INDEPENDENT)
-                .maritalStatus(MaritalStatus.MARRIED)
+                .dependencyStatus("INDEPENDENT")
+                .maritalStatus("MARRIED")
                 .spouseInfo(new SpouseInfo("Jane", "Doe", "123456789"))
                 .household(new Household(3, 2))
                 .income(new Income(30000, null))
