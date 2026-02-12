@@ -24,50 +24,53 @@ public class IncomeValueRule implements ValidationRule {
     @Override
     public ValidationDetails validate(Application application) {
         if (application.income() == null) {
-            return ValidationDetails.builder()
-                    .status(ValidationStatus.INVALID)
-                    .failedRules(List.of(
-                            RuleResult.builder()
-                                    .ruleName(getRuleName())
-                                    .message("Income information is missing")
-                                    .build()
-                    ))
-                    .build();
+            return buildInvalidResult("Income information is missing");
         }
 
         List<RuleResult> failedRules = new ArrayList<>();
 
-        Integer studentIncome = application.income().studentIncome();
-        Integer parentIncome = application.income().parentIncome();
-
-        if (studentIncome != null && studentIncome < 0) {
-            failedRules.add(RuleResult.builder()
-                    .ruleName(getRuleName())
-                    .message(String.format("Student income cannot be negative. Provided: %d", studentIncome))
-                    .build());
-        }
-
-        if (parentIncome != null && parentIncome < 0) {
-            failedRules.add(RuleResult.builder()
-                    .ruleName(getRuleName())
-                    .message(String.format("Parent income cannot be negative. Provided: %d", parentIncome))
-                    .build());
-        }
+        validateStudentIncome(application.income().studentIncome(), failedRules);
+        validateParentIncome(application.income().parentIncome(), failedRules);
 
         if (!failedRules.isEmpty()) {
-            return ValidationDetails.builder()
-                    .status(ValidationStatus.INVALID)
-                    .failedRules(failedRules)
-                    .build();
+            return buildInvalidResult(failedRules);
         }
 
         return ValidationDetails.builder()
                 .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName(getRuleName())
-                                .build()
-                ))
+                .passedRules(List.of(buildRuleResult(null)))
+                .build();
+    }
+
+    private void validateStudentIncome(Integer studentIncome, List<RuleResult> failedRules) {
+        if (studentIncome != null && studentIncome < 0) {
+            failedRules.add(buildRuleResult(
+                    String.format("Student income cannot be negative. Provided: %d", studentIncome)));
+        }
+    }
+
+    private void validateParentIncome(Integer parentIncome, List<RuleResult> failedRules) {
+        if (parentIncome != null && parentIncome < 0) {
+            failedRules.add(buildRuleResult(
+                    String.format("Parent income cannot be negative. Provided: %d", parentIncome)));
+        }
+    }
+
+    private RuleResult buildRuleResult(String message) {
+        return RuleResult.builder()
+                .ruleName(getRuleName())
+                .message(message)
+                .build();
+    }
+
+    private ValidationDetails buildInvalidResult(String message) {
+        return buildInvalidResult(List.of(buildRuleResult(message)));
+    }
+
+    private ValidationDetails buildInvalidResult(List<RuleResult> failedRules) {
+        return ValidationDetails.builder()
+                .status(ValidationStatus.INVALID)
+                .failedRules(failedRules)
                 .build();
     }
 }
