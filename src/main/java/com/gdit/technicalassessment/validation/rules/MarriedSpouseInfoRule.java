@@ -1,16 +1,15 @@
 package com.gdit.technicalassessment.validation.rules;
 
-import com.gdit.technicalassessment.model.Application;
-import com.gdit.technicalassessment.model.MaritalStatus;
-import com.gdit.technicalassessment.model.RuleResult;
-import com.gdit.technicalassessment.model.SpouseInfo;
-import com.gdit.technicalassessment.model.ValidationDetails;
-import com.gdit.technicalassessment.model.ValidationStatus;
+import com.gdit.technicalassessment.model.*;
 import com.gdit.technicalassessment.validation.ValidationRule;
 import com.gdit.technicalassessment.validation.util.SsnValidator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.gdit.technicalassessment.validation.util.EnumValidator.isValidEnum;
+import static com.gdit.technicalassessment.validation.util.EnumValidator.parseEnum;
 
 public class MarriedSpouseInfoRule implements ValidationRule {
 
@@ -30,7 +29,11 @@ public class MarriedSpouseInfoRule implements ValidationRule {
             return buildInvalidResult("Marital status is missing");
         }
 
-        if (application.maritalStatus() == MaritalStatus.SINGLE) {
+        if (!isValidEnum(application.maritalStatus(), MaritalStatus.class)) {
+            return buildInvalidResult(String.format("Invalid marital status. Must be one of the following: %s, Provided: %s", Arrays.toString(MaritalStatus.values()), application.maritalStatus()));
+        }
+
+        if (parseEnum(application.maritalStatus(), MaritalStatus.class) == MaritalStatus.SINGLE) {
             return validateSingleStudent(application);
         }
 

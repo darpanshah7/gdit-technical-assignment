@@ -23,6 +23,7 @@
 
 ## Extensibility
 - **Decision**: I designed the system with extensibility in mind by using a common interface for validation rules. This allows for easy addition of rules as new requirements arise and the application object evolves.
+- EnumValidator supports future enums that may be added without flooding validation code in rules
 
 ## Severity Levels
 - Similar to rule priority, I have not categorized different types of violations with severity levels as there is no current situation where an application is valid even when validation fails. If future rules required a WARN severity level I would implement severity levels.
@@ -33,4 +34,5 @@
 - Tests are set up to test features independently of each other. For example, the SSN validation tests only test the SSN validation logic and not the entire application validation process.
 
 ## Time Spent
-- I spend roughly 2.5 hours in dev time on this project
+- I spent roughly 3 hours in dev time on this project
+

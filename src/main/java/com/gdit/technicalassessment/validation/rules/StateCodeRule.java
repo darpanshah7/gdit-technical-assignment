@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.gdit.technicalassessment.validation.util.EnumValidator.isValidEnum;
+
 @Component
 public class StateCodeRule implements ValidationRule {
 
@@ -31,9 +33,7 @@ public class StateCodeRule implements ValidationRule {
             return buildInvalidResult("State of residence is missing");
         }
 
-        String upperCaseStateCode = stateCode.toUpperCase().trim();
-
-        if (!isValidStateCode(upperCaseStateCode)) {
+        if (!isValidEnum(stateCode, UsaState.class)) {
             return buildInvalidResult(String.format("Invalid state code. Provided: %s", stateCode));
         }
 
@@ -41,15 +41,6 @@ public class StateCodeRule implements ValidationRule {
             .status(ValidationStatus.VALID)
             .passedRules(List.of(buildRuleResult(null)))
             .build();
-    }
-
-    private boolean isValidStateCode(String stateCode) {
-        try {
-            UsaState.valueOf(stateCode);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
     }
 
     private RuleResult buildRuleResult(String message) {

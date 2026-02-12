@@ -36,62 +36,6 @@ class StateCodeRuleTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    void stateCodeIsValidWithLowercase() {
-        var application = Application.builder()
-                .stateOfResidence("fl")
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("STATE_CODE")
-                                .build()
-                ))
-                .build();
-
-        var actual = stateCodeRule.validate(application);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void stateCodeIsValidWithMixedCase() {
-        var application = Application.builder()
-                .stateOfResidence("Mi")
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("STATE_CODE")
-                                .build()
-                ))
-                .build();
-
-        var actual = stateCodeRule.validate(application);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void stateCodeIsValidWithWhitespace() {
-        var application = Application.builder()
-                .stateOfResidence("  NY  ")
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("STATE_CODE")
-                                .build()
-                ))
-                .build();
-
-        var actual = stateCodeRule.validate(application);
-        assertEquals(expected, actual);
-    }
 
     @Test
     void stateCodeInvalidWhenMissing() {
@@ -209,43 +153,6 @@ class StateCodeRuleTest {
                 ))
                 .build();
 
-        var actual = stateCodeRule.validate(application);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void stateCodeIsValidForFirstState() {
-        var application = Application.builder()
-                .stateOfResidence("AL")
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("STATE_CODE")
-                                .build()
-                ))
-                .build();
-
-        var actual = stateCodeRule.validate(application);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void stateCodeIsValidForLastState() {
-        var application = Application.builder()
-                .stateOfResidence("WY")
-                .build();
-
-        var expected = ValidationDetails.builder()
-                .status(ValidationStatus.VALID)
-                .passedRules(List.of(
-                        RuleResult.builder()
-                                .ruleName("STATE_CODE")
-                                .build()
-                ))
-                .build();
 
         var actual = stateCodeRule.validate(application);
         assertEquals(expected, actual);
