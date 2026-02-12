@@ -6,9 +6,11 @@ import com.gdit.technicalassessment.model.UsaState;
 import com.gdit.technicalassessment.model.ValidationDetails;
 import com.gdit.technicalassessment.model.ValidationStatus;
 import com.gdit.technicalassessment.validation.ValidationRule;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class StateCodeRule implements ValidationRule {
 
     @Override

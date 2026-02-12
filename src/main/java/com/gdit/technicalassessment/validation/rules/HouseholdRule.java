@@ -2,10 +2,12 @@ package com.gdit.technicalassessment.validation.rules;
 
 import com.gdit.technicalassessment.model.*;
 import com.gdit.technicalassessment.validation.ValidationRule;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class HouseholdRule implements ValidationRule {
 
     @Override

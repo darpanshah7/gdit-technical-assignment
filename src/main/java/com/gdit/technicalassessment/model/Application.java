@@ -1,5 +1,8 @@
 package com.gdit.technicalassessment.model;
 
+import lombok.Builder;
+
+@Builder
 public record Application(
         StudentInfo studentInfo,
         DependencyStatus dependencyStatus,
@@ -7,6 +10,6 @@ public record Application(
         SpouseInfo spouseInfo,
         Household household,
         Income income,
-        UsaState stateOfResidence
+        String stateOfResidence
 ) {
 }

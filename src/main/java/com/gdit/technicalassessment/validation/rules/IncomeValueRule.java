@@ -5,10 +5,12 @@ import com.gdit.technicalassessment.model.RuleResult;
 import com.gdit.technicalassessment.model.ValidationDetails;
 import com.gdit.technicalassessment.model.ValidationStatus;
 import com.gdit.technicalassessment.validation.ValidationRule;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class IncomeValueRule implements ValidationRule {
 
     @Override

@@ -5,12 +5,14 @@ import com.gdit.technicalassessment.model.RuleResult;
 import com.gdit.technicalassessment.model.ValidationDetails;
 import com.gdit.technicalassessment.model.ValidationStatus;
 import com.gdit.technicalassessment.validation.ValidationRule;
+import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+@Component
 public class StudentAgeRule implements ValidationRule {
 
     private static final int MINIMUM_AGE = 14;

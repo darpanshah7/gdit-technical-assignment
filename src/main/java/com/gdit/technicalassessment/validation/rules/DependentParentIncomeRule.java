@@ -1,18 +1,18 @@
 package com.gdit.technicalassessment.validation.rules;
 
 import com.gdit.technicalassessment.model.Application;
-import com.gdit.technicalassessment.model.DependencyStatus;
 import com.gdit.technicalassessment.model.RuleResult;
 import com.gdit.technicalassessment.model.ValidationDetails;
 import com.gdit.technicalassessment.model.ValidationStatus;
 import com.gdit.technicalassessment.validation.ValidationRule;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.gdit.technicalassessment.model.DependencyStatus.INDEPENDENT;
 
+@Component
 public class DependentParentIncomeRule implements ValidationRule {
-
     @Override
     public String getRuleName() {
         return "DEPENDENT_PARENT_INCOME";
