@@ -16,7 +16,6 @@ public class ApplicationValidationController {
 
     private final ApplicationValidationService validationService;
 
-
     @PostMapping("/validate")
     public ResponseEntity<ValidationDetails> validateApplication(@RequestBody Application application) {
         log.info("Received validation request for application: {}", application);
@@ -25,4 +24,3 @@ public class ApplicationValidationController {
         return ResponseEntity.ok(validationDetails);
     }
 }
-

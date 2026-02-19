@@ -3,6 +3,7 @@ package com.gdit.technicalassessment.validation.rules;
 import com.gdit.technicalassessment.model.*;
 import com.gdit.technicalassessment.validation.ValidationRule;
 import com.gdit.technicalassessment.validation.util.SsnValidator;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.List;
 import static com.gdit.technicalassessment.validation.util.EnumValidator.isValidEnum;
 import static com.gdit.technicalassessment.validation.util.EnumValidator.parseEnum;
 
+@Component
 public class MarriedSpouseInfoRule implements ValidationRule {
 
     @Override
